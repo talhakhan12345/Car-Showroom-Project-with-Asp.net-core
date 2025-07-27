@@ -1,0 +1,423 @@
+﻿
+@{
+    Layout = "_Layout";
+}
+
+@model List<Car>
+
+    <div class="hero-wrap ftco-degree-bg" style="background-image: url('../images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text justify-content-start align-items-center justify-content-center">
+          <div class="col-lg-8 ftco-animate">
+          	<div class="text w-100 text-center mb-md-5 pb-md-5" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px;">
+
+	         <h1 class="mb-4">Experience Luxury & Performance</h1>
+                  <p style="font-size: 18px;">From sedans to SUVs, find the perfect car for your lifestyle in our exclusive showroom.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<section class="ftco-section ftco-no-pt bg-light">
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-md-12 featured-top">
+                <div class="row no-gutters">
+                    <!-- Left Side: Car Search Filter -->
+                    <div class="col-md-4 d-flex align-items-center">
+                        <form asp-action="Inventory" method="get" class="request-form ftco-animate bg-primary text-white p-4 rounded">
+                            <h2 class="mb-4">Find Your Perfect Car</h2>
+
+                            <div class="form-group">
+                                <label for="search" class="label">Search by Name or Stock #</label>
+                                <input type="text" id="search" name="search" class="form-control" placeholder="e.g. Honda Civic, STK1234"
+                                       style="color: #212529 !important; background-color: #ffffff !important;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="year" class="label">Year</label>
+                                <select id="year" name="year" class="form-control" style="color: #212529 !important; background-color: #ffffff !important;">
+                                    <option value="">All Years</option>
+                                    @for (int y = 2025; y >= 2005; y--)
+                                    {
+                                        <option value="@y">@y</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="d-flex">
+                                <div class="form-group mr-2">
+                                    <label for="make" class="label">Make</label>
+                                    <select id="make" name="make" class="form-control" style="color: #212529 !important; background-color: #ffffff !important;">
+                                        <option value="">All Makes</option>
+                                        <option>Acura</option>
+                                        <option>Audi</option>
+                                        <option>BMW</option>
+                                        <option>Buick</option>
+                                        <option>Cadillac</option>
+                                        <option>Chevrolet</option>
+                                        <option>Chrysler</option>
+                                        <option>Dodge</option>
+                                        <option>Ford</option>
+                                        <option>GMC</option>
+                                        <option>Honda</option>
+                                        <option>Hyundai</option>
+                                        <option>Infiniti</option>
+                                        <option>Jeep</option>
+                                        <option>Kia</option>
+                                        <option>Lexus</option>
+                                        <option>Mazda</option>
+                                        <option>Mercedes-Benz</option>
+                                        <option>Nissan</option>
+                                        <option>Subaru</option>
+                                        <option>Toyota</option>
+                                        <option>Volkswagen</option>
+                                        <option>Volvo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group ml-2">
+                                    <label for="model" class="label">Model</label>
+                                    <select id="model" name="model" class="form-control" style="color: #212529 !important; background-color: #ffffff !important;">
+                                        <option value="">All Models</option>
+                                        <option>3 Series</option>
+                                        <option>5 Series</option>
+                                        <option>A4</option>
+                                        <option>A6</option>
+                                        <option>Altima</option>
+                                        <option>Camry</option>
+                                        <option>Civic</option>
+                                        <option>Corolla</option>
+                                        <option>CR-V</option>
+                                        <option>Elantra</option>
+                                        <option>Escape</option>
+                                        <option>F-150</option>
+                                        <option>Fusion</option>
+                                        <option>Highlander</option>
+                                        <option>Impala</option>
+                                        <option>Malibu</option>
+                                        <option>Maxima</option>
+                                        <option>Model 3</option>
+                                        <option>Model S</option>
+                                        <option>Mustang</option>
+                                        <option>Outback</option>
+                                        <option>Optima</option>
+                                        <option>Passat</option>
+                                        <option>Rav4</option>
+                                        <option>Rogue</option>
+                                        <option>Santafe</option>
+                                        <option>Sonata</option>
+                                        <option>Tiguan</option>
+                                        <option>Traverse</option>
+                                        <option>Wrangler</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="price" class="label">Price Range (USD)</label>
+                                <select id="price" name="price" class="form-control" style="color: #212529 !important; background-color: #ffffff !important;">
+                                    <option value="">All Prices</option>
+                                    <option value="0-5000">$0 - $5,000</option>
+                                    <option value="5000-10000">$5,000 - $10,000</option>
+                                    <option value="10000-15000">$10,000 - $15,000</option>
+                                    <option value="15000-20000">$15,000 - $20,000</option>
+                                    <option value="20000-30000">$20,000 - $30,000</option>
+                                    <option value="30000-40000">$30,000 - $40,000</option>
+                                    <option value="40000-50000">$40,000 - $50,000</option>
+                                    <option value="50000-75000">$50,000 - $75,000</option>
+                                    <option value="75000-100000">$75,000 - $100,000</option>
+                                    <option value="100000+">$100,000+</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Search Cars" class="btn btn-secondary py-3 px-4">
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Side: Car Dealership Highlights -->
+                    <div class="col-md-8 d-flex align-items-center">
+                        <div class="services-wrap rounded-right w-100 px-4">
+                            <h3 class="heading-section mb-4">Trusted Car Dealership in Chicago</h3>
+                            <div class="row d-flex mb-4">
+                                <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                    <div class="services w-100 text-center">
+                                        <div class="icon d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-car fa-2x text-primary"></i>
+                                        </div>
+                                        <div class="text w-100 mt-2">
+                                            <h3 class="heading mb-2">Certified Pre-Owned Cars</h3>
+                                            <p>Hand-picked inventory with full inspection reports.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                    <div class="services w-100 text-center">
+                                        <div class="icon d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-tags fa-2x text-primary"></i>
+                                        </div>
+                                        <div class="text w-100 mt-2">
+                                            <h3 class="heading mb-2">Affordable Pricing</h3>
+                                            <p>Competitive prices tailored for every budget and need.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                    <div class="services w-100 text-center">
+                                        <div class="icon d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-money-check-alt fa-2x text-primary"></i>
+                                        </div>
+                                        <div class="text w-100 mt-2">
+                                            <h3 class="heading mb-2">Fast Financing</h3>
+                                            <p>Apply online and get approved within 24 hours.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a href="@Url.Action("Finance","Website")" class="btn btn-primary py-3 px-4">Apply for Financing</a></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="ftco-section ftco-no-pt bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 heading-section text-center ftco-animate mb-5" style="padding-top: 80px;">
+                <h2 class="mb-3" style="font-size: 44px; font-weight: 800; color: #1a1a1a; letter-spacing: 1.2px; text-transform: uppercase; position: relative; display: inline-block;">
+                    <i class="fas fa-car-side text-primary mr-2"></i> Featured Vehicles
+                    <span style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: #007bff; border-radius: 2px;"></span>
+                </h2>
+                <p style="color: #555; font-size: 16px; max-width: 600px; margin: 0 auto;">
+                    Browse our exclusive collection of high-end, performance-driven vehicles handpicked for your lifestyle.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="carousel-car owl-carousel">
+                    @foreach (var row in Model)
+                    {
+                        var firstImage = row.ImagePath?.Split(',').FirstOrDefault();
+                        <div class="item" style="padding: 10px;">
+                            <div style="
+                        border-radius: 15px;
+                        overflow: hidden;
+                        background: #fff;
+                        border: 1px solid #ddd;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+                        transform: translateY(0);
+                    "
+                                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 30px rgba(0, 0, 0, 0.12)';"
+                                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.08)';">
+                                <!-- Car Image -->
+                                <div style="background-image: url('@Url.Content("~/uploads/" + firstImage)'); height: 240px; background-size: cover; background-position: center;">
+                                </div>
+
+                                <!-- Car Details -->
+                                <div style="padding: 20px;">
+                                    <h4 style="margin: 0 0 8px; font-size: 22px; color: #222; font-weight: 700;">@row.Brand</h4>
+                                    <p style="margin: 0 0 15px; color: #777; font-size: 15px;">@row.Model</p>
+
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                        <span style="color: #007bff; font-weight: bold; font-size: 18px;">$@string.Format("{0:N0}", row.Price)</span>
+                                        <a href="@Url.Action("cardetail", "website", new { id = row.Stock_id })"
+                                           style="
+                                   padding: 10px 20px;
+                                   background-color: #007bff;
+                                   color: #fff;
+                                   font-size: 14px;
+                                   font-weight: 600;
+                                   border-radius: 30px;
+                                   text-decoration: none;
+                                   box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+                                   transition: background 0.3s ease;
+                                   display: inline-flex;
+                                   align-items: center;
+                               ">
+                                            <i class="fas fa-arrow-right mr-1" style="margin-right: 6px;"></i> View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="ftco-section ftco-about">
+	<div class="container">
+		<div class="row no-gutters">
+			<div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../images/about.jpg);">
+			</div>
+			<div class="col-md-6 wrap-about ftco-animate">
+				<div class="heading-section heading-section-white pl-md-5">
+					<span class="subheading">About Us</span>
+					<h2 class="mb-4">Welcome to FoxValleyLuxury</h2>
+
+					<p>At FoxValleyLuxury, we specialize in providing premium quality vehicles to drivers across the Chicago area. Whether you're searching for a luxury sedan, a reliable SUV, or a performance-driven sports car, our hand-selected inventory ensures you'll find the perfect match.</p>
+
+					<p>We believe in building long-term relationships with our customers. That’s why every vehicle on our lot is thoroughly inspected and comes with complete service history and transparency. Our friendly team is here to assist you with financing, trade-ins, and test drives — making the buying process smooth and stress-free.</p>
+
+					<p><a href="/Inventory" class="btn btn-primary py-3 px-4">Browse Inventory</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+<section class="ftco-section bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-8 text-center heading-section">
+                <span class="subheading text-primary">What We Offer</span>
+                <h2 class="mb-4 font-weight-bold">Premium Auto Services</h2>
+                <p class="text-muted">Explore the top-tier services we offer at FoxValleyLuxury – from buying luxury vehicles to personalized financing options.</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-3 mb-4">
+                <div class="bg-white p-4 shadow-sm rounded-lg h-100">
+                    <div class="mb-3 text-primary">
+                        <i class="fas fa-car fa-3x"></i>
+                    </div>
+                    <h5 class="font-weight-bold mb-2">Luxury Car Sales</h5>
+                    <p class="text-muted">Browse our collection of premium vehicles handpicked for performance and class.</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="bg-white p-4 shadow-sm rounded-lg h-100">
+                    <div class="mb-3 text-success">
+                        <i class="fas fa-dollar-sign fa-3x"></i>
+                    </div>
+                    <h5 class="font-weight-bold mb-2">Financing Solutions</h5>
+                    <p class="text-muted">Flexible financing plans tailored to your needs, with easy online application.</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="bg-white p-4 shadow-sm rounded-lg h-100">
+                    <div class="mb-3 text-warning">
+                        <i class="fas fa-calendar-check fa-3x"></i>
+                    </div>
+                    <h5 class="font-weight-bold mb-2">Schedule a Test Drive</h5>
+                    <p class="text-muted">Book your test drive online and experience luxury on the road before you buy.</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="bg-white p-4 shadow-sm rounded-lg h-100">
+                    <div class="mb-3 text-info">
+                        <i class="fas fa-exchange-alt fa-3x"></i>
+                    </div>
+                    <h5 class="font-weight-bold mb-2">Trade-In Options</h5>
+                    <p class="text-muted">Get competitive value for your current vehicle and upgrade to a luxury car.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="ftco-section ftco-intro text-white" style="background-image: url('/images/bg_3.jpg'); background-size: cover; background-position: center;">
+    <div class="overlay" style="background: rgba(0,0,0,0.6);"></div>
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-md-7 text-right heading-section heading-section-white py-5 px-4">
+                <h2 class="mb-4 font-weight-bold">Looking to Upgrade Your Drive?</h2>
+                <p class="mb-4">Get pre-approved for financing today and drive home your dream car with confidence.</p>
+                <a href="/Website/Finance" class="btn btn-lg btn-primary px-4 py-2">Apply for Financing</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="ftco-section py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-md-8">
+                <h2 class="font-weight-bold mb-2">Have Questions? We're Here to Help.</h2>
+                <p class="mb-0">Whether you're looking to buy, sell, or simply learn more — our team is ready to guide you every step of the way.</p>
+            </div>
+            <div class="col-md-4 text-md-right text-center mt-4 mt-md-0">
+                <a href="/Website/Contact" class="btn btn-light btn-lg px-5 shadow-sm">
+                    <i class="fas fa-envelope mr-2"></i> Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Google Map Section -->
+<section class="ftco-section p-0">
+    <div class="container-fluid p-0">
+        <div class="mapouter">
+            <div class="gmap_canvas" style="width: 100%; height: 450px;">
+                <iframe width="100%" height="100%" id="gmap_canvas"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2968.3895393703524!2d-87.62979838455689!3d41.878113179221246!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2cbd5cd2c6d3%3A0xc4f7a173e0e3b3b4!2sChicago%2C%20IL!5e0!3m2!1sen!2sus!4v1625508509639!5m2!1sen!2sus"
+                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (TempData["TradeInMessage"] != null)
+{
+    <div class="modal fade" id="tradeInSuccessModal" tabindex="-1" role="dialog" aria-labelledby="tradeInSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-success">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Trade-In Submitted</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>@TempData["TradeInMessage"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @if (TempData["TradeInMessage"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                $('#tradeInSuccessModal').modal('show');
+            });
+        </script>
+    }
+}
+
+
+
+
+
+
+
+
+
+

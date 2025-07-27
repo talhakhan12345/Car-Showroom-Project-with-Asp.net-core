@@ -1,0 +1,89 @@
+﻿@using Car_web.Models
+@model List<CreditApplication>
+
+@{
+    Layout = "_Dashboard";
+    ViewData["Title"] = "Credit Applications";
+    int count = 1;
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Credit Applications (List View)</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        foreach (var row in Model)
+        {
+            <div class="border rounded p-3 mb-4 bg-light shadow-sm">
+                <h5>Application #@count</h5>
+
+                <!-- Delete Button -->
+                <form asp-action="DeleteFinance" asp-controller="Admin" asp-route-id="@row.Id" method="post" class="mb-3 text-right" onsubmit="return confirm('Are you sure you want to delete this application?');">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+
+
+                <ul class="list-unstyled">
+                    <li><strong>ID:</strong> @row.Id</li>
+                    <li><strong>Application Type:</strong> @row.ApplicationType</li>
+                    <li><strong>Relationship:</strong> @row.Relationship</li>
+                    <li><strong>Vehicle Info:</strong> @row.VehicleId<br /><br /></li>
+                    <li><strong>Use / Condition:</strong> @row.IntendedUse / @row.Condition</li>
+                    <li>
+                        <strong>Purchase Info:</strong>
+                        <ul>
+                            <li>Purchase: @row.PurchaseType</li>
+                            <li>Prefered Term: @row.PreferredTerm</li>
+                            <li>Purchase Months: @row.PurchaseMonths</li>
+                            <li>Lease Miles: @row.LeaseMilesPerYear</li>
+                            <li>Down Payment: @row.DownPayment?.ToString("C")</li>
+                            <li>Monthly Payment: @row.MonthlyPayment?.ToString("C")</li>
+                            <li>Amount To Finance: @row.AmountToFinance?.ToString("C")</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Trade Info:</strong>
+                        <ul>
+                            <li>Has Trade: @(row.HasTrade ? "Yes" : "No")</li>
+                            @if (row.HasTrade)
+                            {
+                                <li>@row.TradeYear @row.TradeMake @row.TradeModel</li>
+                                <li>Mileage: @row.TradeMileage</li>
+                                <li>VIN: @row.TradeVIN</li>
+                                <li>Payoff: @row.TradePayoffValue</li>
+                                <li>Notes: @row.TradeNotes</li>
+                            }
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Personal Info:</strong>
+                        <ul>
+                            <li>Name: @row.FirstName @row.LastName</li>
+                            <li>Email: @row.Email</li>
+                            <li>Phone: @row.Phone</li>
+                            <li>SSN: @row.SSN</li>
+                        </ul>
+                    </li>
+                    <li><strong>License:</strong> @row.LicenseNumber (Expiry: @row.LicenseExpiry?.ToString("yyyy-MM-dd"))</li>
+                    <li><strong>Address:</strong> @row.Address, @row.City, @row.State (ZIP: @row.ZipCode)</li>
+                    <li>
+                        <strong>Rent Info:</strong>
+                        <ul>
+                            <li>Rent: @row.MonthlyRent</li>
+                            <li>Payee: @row.RentPayee</li>
+                            <li>Mother's Name: @row.MothersMaidenName</li>
+                        </ul>
+                    </li>
+                    <li><strong>Income:</strong> @row.AdditionalIncomeAmount?.ToString("C") (@row.IncomeSource)</li>
+                    <li><strong>Created:</strong> @row.CreatedAt?.ToString("dd-MMM-yyyy hh:mm tt")</li>
+                </ul>
+            </div>
+
+            count++;
+        }
+    }
+    else
+    {
+        <p class="text-center text-muted">No applications found.</p>
+    }
+</div>

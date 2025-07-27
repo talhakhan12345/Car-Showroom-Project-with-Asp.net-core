@@ -1,0 +1,69 @@
+﻿@model List<Car_web.Models.Request>
+@{
+    Layout = "_Dashboard";
+}
+
+<h2 class="mb-4">Trade-In Submissions</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Vehicle</th>
+                <th>Mileage</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Zip</th>
+                <th>Contact Via</th>
+                <th>Consent</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int i = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.VehicleInfo</td>
+                        <td>@item.Mileage</td>
+                        <td>@item.FirstName @item.LastName</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>@item.ZipCode</td>
+                        <td>
+                            @(item.ContactCall ? "Call " : "")
+                            @(item.ContactSMS ? "SMS " : "")
+                            @(item.ContactEmail ? "Email" : "")
+                        </td>
+                        <td>
+                            @(item.Consent ? "✔️" : "❌")
+                        </td>
+                        <td>
+                            <form asp-action="DeleteTradeIn" method="post" onsubmit="return confirm('Delete this?');">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="10" class="text-center text-muted">No trade-in requests found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,273 @@
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString()?.ToLower();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fox Valley Reliable Cars | Premium Car Dealership in Illinois</title>
+    <meta name="description" content="Discover premium pre-owned and new cars at Fox Valley Luxury Cars. Serving Chicago, Lockport, and beyond with luxury vehicles and great financing." />
+    <meta name="keywords" content="luxury cars, premium cars, Chicago cars, Fox Valley Cars, used cars Lockport, car finance Illinois" />
+    <meta name="author" content="Fox Valley Reliable Cars" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="icon" type="image/png" href="~/images/LOGO.jpeg" />
+    <!-- OpenGraph for social sharing -->
+    <meta property="og:title" content="Fox Valley Luxury Cars" />
+    <meta property="og:description" content="Find your dream luxury vehicle at Fox Valley Cars – trusted, quality, and affordable." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.foxvalleycars.com" />
+    <meta property="og:image" content="https://www.foxvalleycars.com/images/preview.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Fox Valley Luxury Cars" />
+    <meta name="twitter:description" content="Explore top-tier cars for sale in Illinois with financing options." />
+    <meta name="twitter:image" content="https://www.foxvalleycars.com/images/preview.jpg" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/images/favicon.ico" type="image/x-icon" />
+
+    @RenderSection("MetaTags", required: false)
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/open-iconic-bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="~/css/magnific-popup.css" />
+    <link rel="stylesheet" href="~/css/aos.css" />
+    <link rel="stylesheet" href="~/css/ionicons.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="~/css/jquery.timepicker.css" />
+    <link rel="stylesheet" href="~/css/flaticon.css" />
+    <link rel="stylesheet" href="~/css/icomoon.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .transparent-navbar {
+            background-color: rgba(0, 0, 0, 0.4);
+            transition: background-color 0.3s ease-in-out;
+            border-bottom: 1px solid rgba(150, 150, 150, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar-scrolled {
+            background-color: #111 !important;
+            border-color: #333 !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ddd !important;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-item.active .nav-link {
+            color: #ffc107 !important;
+            border-bottom: 2px solid #ffc107;
+        }
+
+        .navbar-toggler {
+            border-color: #ffc107;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28 255,193,7, 0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        .ftco-footer, .ftco-footer *:not(.icon):not([class^="icon-"]) {
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 600 !important;
+            color: #ddd !important;
+        }
+
+        .ftco-footer .logo .text-warning {
+            color: #ffc107 !important;
+        }
+
+        .ftco-footer .logo .text-primary {
+            color: #007bff !important;
+        }
+
+        .ftco-footer .ftco-footer-social .icon {
+            color: #fff !important;
+            font-size: 18px;
+        }
+
+        .ftco-footer .ftco-footer-social a:hover .icon {
+            color: #ffc107 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top transparent-navbar">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold d-flex align-items-center" href="@Url.Action("Index", "Home")" style="font-size: 1.5rem;">
+                <i class="fas fa-car-side text-warning mr-2"></i>
+                <span><span class="text-warning">Fox</span>Valley<span class="text-primary">Reliable</span>Car</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ml-auto text-uppercase font-weight-semibold">
+                    <li class="nav-item @(currentController == "website" && currentAction == "index" ? "active" : "")">
+                        <a class="nav-link px-3" href="@Url.Action("Index", "Website")">Home</a>
+                    </li>
+                    <li class="nav-item @(currentController == "website" && currentAction == "about" ? "active" : "")">
+                        <a class="nav-link px-3" href="@Url.Action("About", "Website")">About</a>
+                    </li>
+                    <li class="nav-item @(currentController == "website" && currentAction == "cars" ? "active" : "")">
+                        <a class="nav-link px-3" href="@Url.Action("Cars", "Website")">Cars</a>
+                    </li>
+                    <li class="nav-item @(currentController == "website" && currentAction == "finance" ? "active" : "")">
+                        <a class="nav-link px-3" href="@Url.Action("Finance", "Website")">Finance</a>
+                    </li>
+                    <li class="nav-item @(currentController == "website" && currentAction == "contact" ? "active" : "")">
+                        <a class="nav-link px-3" href="@Url.Action("Contact", "Website")">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="pb-3">
+        @RenderBody()
+        @RenderSection("Styles", required: false)
+    </main>
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">
+                            <a href="#" class="logo"><span class="text-warning">Fox</span>Valley<span class="text-primary">ReliableCars</span></a>
+                        </h2>
+                        <p>Your trusted destination for premium cars in Chicago and beyond.</p>
+                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+                            <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                            <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                            <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4 ml-md-5">
+                        <h2 class="ftco-heading-2">Pages</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="@Url.Action("About", "Website")" class="py-2 d-block">About Us</a></li>
+                            <li><a href="@Url.Action("Contact", "Website")" class="py-2 d-block">Contact Us</a></li>
+                            <li><a href="@Url.Action("Cars", "Website")" class="py-2 d-block">Featured Cars</a></li>
+                            <li><a href="@Url.Action("Finance", "Website")" class="py-2 d-block">Finance</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Hours of Operation</h2>
+                        <ul class="list-unstyled text-light large">
+                            <li class="d-flex justify-content-between border-bottom py-1">
+                                <span>Monday</span><span>08:00 AM – 06:00 PM</span>
+                            </li>
+                            <li class="d-flex justify-content-between border-bottom py-1">
+                                <span>Tuesday</span><span>08:00 AM – 06:00 PM</span>
+                            </li>
+                            <li class="d-flex justify-content-between border-bottom py-1">
+                                <span>Wednesday</span><span>08:00 AM – 06:00 PM</span>
+                            </li>
+                            <li class="d-flex justify-content-between border-bottom py-1">
+                                <span>Thursday</span><span>08:00 AM – 06:00 PM</span>
+                            </li>
+                            <li class="d-flex justify-content-between border-bottom py-1">
+                                <span>Friday</span><span>08:00 AM – 06:00 PM</span>
+                            </li>
+                            <li class="d-flex justify-content-between border-bottom py-1">
+                                <span>Saturday</span><span>08:00 AM – 06:00 PM</span>
+                            </li>
+                            <li class="d-flex justify-content-between py-1">
+                                <span>Sunday</span><span class="text-danger font-weight-bold">Closed</span>
+                            </li>
+                        </ul>
+                        <p class="text-muted mt-2" style="font-size: 13px;">Walk-ins welcome. Appointments preferred for faster service.</p>
+                    </div>
+                </div>
+
+
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Have a Question?</h2>
+                        <div class="block-23 mb-3">
+                            <ul>
+                                <li><span class="icon icon-map-marker"></span><span class="text">15523 Weber Rd Unit 106, Lockport, Illinois 60446</span></li>
+                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+1 815-779-6638</span></a></li>
+                                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">foxvellreliablecars@gmail.com</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 14px; color: #ccc;">
+                &copy; <script>document.write(new Date().getFullYear());</script>
+                <strong style="color: #fff;">FoxValleyReliableCars</strong>. All rights reserved.<br />
+                <span style="font-weight: 400;">Crafted with <i class="icon-heart color-danger" aria-hidden="true"></i> to drive your passion forward.</span>
+            </p>
+
+        </div>
+    </footer>
+
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script> 
+    <script src="~/js/jquery.easing.1.3.js"></script>
+    <script src="~/js/jquery.waypoints.min.js"></script>
+    <script src="~/js/jquery.stellar.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/js/aos.js"></script>
+    <script src="~/js/jquery.animateNumber.min.js"></script>
+    <script src="~/js/bootstrap-datepicker.js"></script>
+    <script src="~/js/jquery.timepicker.min.js"></script>
+    <script src="~/js/scrollax.min.js"></script>
+    <script src="~/js/google-map.js"></script>
+    <script src="~/js/main.js"></script>
+    <script>
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.transparent-navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+
+
+
+
+
+
+

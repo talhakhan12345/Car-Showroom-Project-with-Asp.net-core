@@ -1,0 +1,175 @@
+﻿@model List<Car_web.Models.Car>
+@{
+    Layout = "_Dashboard";
+}
+
+<h2 class="mb-4">Manage Cars</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Stock ID</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Vin </th>
+                <th scope="col">Model</th>
+                <th scope="col">Year</th>
+                <th scope="col">Price</th>
+                <th scope="col">Mileage</th>
+                <th scope="col">Fuel Type</th>
+                <th scope="col">Transmission</th>
+                <th scope="col">Engine</th>
+                <th scope="col">Exterior Color</th>
+                <th scope="col">Interior Color</th>
+                <th scope="col">Trim</th>
+                <th scope="col">Description</th>
+                <th scope="col">Seats</th>
+                <th scope="col">Images</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>@car.CarId</td>
+                    <td>@car.Stock_id</td>
+                    <td>@car.Vin</td>
+                    <td>@car.Brand</td>
+                    <td>@car.Model</td>
+                    <td>@car.Year</td>
+                    <td><strong>PKR @string.Format("{0:N0}", car.Price)</strong></td>
+                    <td>@car.Mileage km</td>
+                    <td>@car.FuelType</td>
+                    <td>@car.Transmission</td>
+                    <td>@car.Engine</td>
+                    <td>@car.Exteriro_Color</td>
+                    <td>@car.Interior_Color</td>
+                    <td>@car.Trim</td>
+                    <td>@car.Description</td>
+                    <td>@car.Seats</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(car.ImagePath))
+                        {
+                            var images = car.ImagePath.Split(',');
+                            <div class="d-flex flex-wrap">
+                                @foreach (var img in images)
+                                {
+                                    <img src="~/uploads/@img.Trim()" alt="Car Image" width="60" height="50"
+                                         class="img-thumbnail mr-1 mb-1" loading="lazy"
+                                         style="object-fit: cover;" />
+                                }
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-primary mb-1 editBtn"
+                                data-id="@car.CarId"
+                                data-brand="@car.Brand"
+                                data-model="@car.Model"
+                                data-year="@car.Year"
+                                data-price="@car.Price"
+                                data-mileage="@car.Mileage"
+                                data-fueltype="@car.FuelType"
+                                data-transmission="@car.Transmission"
+                                data-seats="@car.Seats"
+                                data-description="@car.Description">
+                            Edit
+                        </button>
+                        <a href="@Url.Action("Delete", "Admin", new { id = car.CarId })"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Are you sure to delete?');"
+                           aria-label="Delete car @car.CarId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editCarModal" tabindex="-1" role="dialog" aria-labelledby="editCarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form id="editCarForm" method="post" enctype="multipart/form-data" action="@Url.Action("Edit", "Admin")">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Car</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body row">
+                    <input type="hidden" name="CarId" id="editCarId" />
+                    <div class="form-group col-md-6">
+                        <label>Brand</label>
+                        <input type="text" class="form-control" name="Brand" id="editBrand" required />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Model</label>
+                        <input type="text" class="form-control" name="Model" id="editModel" required />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Vin</label>
+                        <input type="text" class="form-control" name="Vin" id="editModel" required />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Year</label>
+                        <input type="number" class="form-control" name="Year" id="editYear" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Price</label>
+                        <input type="number" class="form-control" name="Price" id="editPrice" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Mileage</label>
+                        <input type="text" class="form-control" name="Mileage" id="editMileage" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Fuel Type</label>
+                        <input type="text" class="form-control" name="FuelType" id="editFuelType" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Transmission</label>
+                        <input type="text" class="form-control" name="Transmission" id="editTransmission" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Seats</label>
+                        <input type="number" class="form-control" name="Seats" id="editSeats" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Description</label>
+                        <textarea class="form-control" name="Description" id="editDescription" rows="2"></textarea>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Upload New Images</label>
+                        <input type="file" class="form-control-file" name="newImages" multiple />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).on("click", ".editBtn", function () {
+            $("#editCarId").val($(this).data("id"));
+            $("#editBrand").val($(this).data("brand"));
+            $("#editModel").val($(this).data("model"));
+            $("#editYear").val($(this).data("year"));
+            $("#editPrice").val($(this).data("price"));
+            $("#editMileage").val($(this).data("mileage"));
+            $("#editFuelType").val($(this).data("fueltype"));
+            $("#editTransmission").val($(this).data("transmission"));
+            $("#editSeats").val($(this).data("seats"));
+            $("#editDescription").val($(this).data("description"));
+
+            $('#editCarModal').modal('show');
+        });
+    </script>
+}

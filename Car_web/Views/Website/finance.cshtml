@@ -1,0 +1,611 @@
+﻿@{
+    ViewData["Title"] = "Credit Application";
+    Layout = "_Layout";
+}
+
+<!-- SEO Meta -->
+<meta name="description" content="Apply for vehicle financing at Fox Valley Luxury Cars. Fast approval process and flexible payment options available.">
+<meta name="keywords" content="car finance, credit application, pre-approval, luxury cars, chicago dealership">
+<meta name="author" content="Fox Valley Luxury Cars">
+
+<style>
+    .hero-banner {
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+</style>
+
+<!-- Hero Banner -->
+<section class="hero-wrap hero-wrap-2 js-fullheight  bg-dark text-white text-center py-5" style="background-image: url('../images/bg_3.jpg'); min-height: 450px; height: 450px; max-height: 560px;" data-stellar-background-ratio="0.5">
+    <!-- Optional dark overlay -->
+    <div style="position: absolute; top: 0; bottom: 0; right: 0; left: 0; background: rgba(0,0,0,0.5); z-index: 1;"></div>
+
+    <!-- Flexbox content wrapper to center everything and force height -->
+    <div class="container d-flex flex-column justify-content-center align-items-center"
+         style="height: 100%; position: relative; z-index: 2;">
+          <h1 class="text-white display-4 font-weight-bold animated fadeInDown" style="animation-duration: 1s;">
+            Get Pre-Approved Instantly
+        </h1>
+       <p class="lead mt-3 animated fadeInDown" style="animation-duration: 1s;">
+            Start your credit application today and drive your dream car tomorrow.
+        </p>
+         <a href="#step1" class="btn btn-primary btn-lg mt-4 animated fadeInDown" style="animation-duration: 1s;">
+            Start Application
+        </a>
+    </div>
+</section>
+
+<div class="container py-5 mt-5">
+    <div class="row">
+        <!-- Left Form -->
+        <div class="col-lg-8">
+
+            <form method="post">
+                <!-- Step 1 -->
+                <div id="step1">
+                    <div class="card p-4 shadow-sm">
+                        <h3 class="text-center font-weight-bold mb-4">Credit Application</h3>
+
+                        <!-- Application Type -->
+                        <h5 class="text-center">Application Type</h5>
+                        <div class="form-group text-center">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="ApplicationType" value="individual" onchange="toggleRelationship()" required />
+                                Individual
+                            </label>
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="ApplicationType" value="joint" onchange="toggleRelationship()" required />
+                                Joint
+                            </label>
+                        </div>
+
+                        <!-- Relationship Dropdown -->
+                        <div class="form-group text-center mt-3" id="relationshipField" style="display:none;">
+                            <label for="relationship">Relationship</label>
+                            <select class="form-control w-50 mx-auto" name="Relationship" id="relationship" required>
+                                <option value="">Select Relationship</option>
+                                <option value="relationship">Relationship</option>
+                                <option value="resides_with">Resides With</option>
+                                <option value="parents">Parents</option>
+                                <option value="others">Others</option>
+                            </select>
+                        </div>
+
+                        <!-- Vehicle Of Interest -->
+<h5 class="text-center mt-4">Vehicle Of Interest</h5>
+<div class="form-group text-center">
+    <select class="form-control w-75 mx-auto" name="VehicleId" required>
+        <option value="">Select Vehicle</option>
+        @foreach (var car in ViewBag.Cars as List<Car_web.Models.Car>)
+        {
+            var displayText = $"{car.Year} {car.Brand} {car.Model} - VIN: {car.Vin} - STOCK ID: {car.Stock_id} - ${car.Price}";
+            var isSelected = ViewBag.SelectedCar == displayText ? "selected" : "";
+
+            @:<option value="@displayText" @isSelected>@displayText</option>
+        }
+    </select>
+</div>
+
+
+
+                        <!-- Vehicle Details -->
+                        <h5 class="text-center mt-4">Vehicle/Motorcycle Of Interest</h5>
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-4">
+                                <select class="form-control" name="PurchaseType" required>
+                                    <option value="">Purchase Type</option>
+                                    <option value="Lease">Lease</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Cash">Cash</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select class="form-control" name="IntendedUse" required>
+                                    <option value="">Intended Use</option>
+                                    <option value="Personal">Personal</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Commercial">Commercial</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select class="form-control" name="Condition" required>
+                                    <option value="">Condition</option>
+                                    <option value="New">New</option>
+                                    <option value="Used">Used</option>
+                                    <option value="Certified Pre-Owned">Certified Pre-Owned</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select class="form-control" name="Year" required>
+                                    <option value="">Year</option>
+                                    @for (int i = DateTime.Now.Year; i >= 1990; i--)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <select class="form-control" name="Make" required>
+                                    <option value="">Make</option>
+                                    <option value="Toyota">Toyota</option>
+                                    <option value="Honda">Honda</option>
+                                    <option value="Ford">Ford</option>
+                                    <option value="Chevrolet">Chevrolet</option>
+                                    <option value="BMW">BMW</option>
+                                    <option value="Mercedes">Mercedes</option>
+                                    <option value="Kia">Kia</option>
+                                    <option value="Hyundai">Hyundai</option>
+                                    <option value="Audi">Audi</option>
+                                    <option value="Nissan">Nissan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Input Fields -->
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-3">
+                                <input type="text" class="form-control" name="Model" placeholder="Model" required />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" class="form-control" name="Trim" placeholder="Trim" required />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" class="form-control" name="StockNumber" placeholder="Stock Number" required />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" class="form-control" name="VIN" placeholder="VIN" required />
+                            </div>
+                        </div>
+
+                        <!-- Purchase Info -->
+                        <h5 class="text-center mt-4">Purchase Information</h5>
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-5"><input type="number" class="form-control" name="PurchaseMonths" placeholder="Months *" required /></div>
+                            <div class="form-group col-md-5"><input type="number" class="form-control" name="LeaseMilesPerYear" placeholder="Lease Miles/Year *" required /></div>
+                            <div class="form-group col-md-5"><input type="number" class="form-control" name="DownPayment" placeholder="Down Payment *" required /></div>
+                            <div class="form-group col-md-5"><input type="number" class="form-control" name="MonthlyPayment" placeholder="Monthly Payment *" required /></div>
+                        </div>
+
+                        <!-- Amount to Finance -->
+                        <h5 class="text-center mt-4">Amount to Finance</h5>
+                        <div class="form-group text-center">
+                            <input type="text" class="form-control w-50 mx-auto" name="AmountToFinance" placeholder="Amount" required />
+                        </div>
+
+                        <!-- Financing Info -->
+                        <h5 class="text-center mt-4">Financing Information</h5>
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-3"><input type="text" class="form-control" name="PreferredTerm" placeholder="Preferred Term" required /></div>
+                            <div class="form-group col-md-3"><input type="text" class="form-control" name="FinancingDownPayment" placeholder="Down Payment" required /></div>
+                        </div>
+
+                        <!-- Trade-in -->
+                        <h5 class="text-center mt-4">Trade-in</h5>
+                        <div class="form-group text-center">
+                            <label>Do you have a trade-in?</label><br />
+                            <label class="mr-3">
+                                <input type="radio" name="HasTrade" value="true" onchange="toggleTradeForm(true)" required /> Yes
+                            </label>
+                            <label>
+                                <input type="radio" name="HasTrade" value="false" onchange="toggleTradeForm(false)" required /> No
+                            </label>
+                        </div>
+
+                        <!-- Trade-in Details -->
+                        <div id="tradeForm" style="display:none">
+                            <div class="form-row justify-content-center">
+                                <div class="form-group col-md-3">
+                                    <select class="form-control" name="TradeYear" data-trade required>
+                                        <option value="">Year</option>
+                                        @for (int y = DateTime.Now.Year; y >= 1990; y--)
+                                        {
+                                            <option>@y</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <select class="form-control" name="TradeMake" data-trade required>
+                                        <option value="">Make</option>
+                                        <option>Honda</option>
+                                        <option>Toyota</option>
+                                        <option>Ford</option>
+                                        <option>Chevrolet</option>
+                                        <option>BMW</option>
+                                        <option>Audi</option>
+                                        <option>Mercedes</option>
+                                        <option>Kia</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3"><input type="text" class="form-control" name="TradeModel" placeholder="Model" data-trade required /></div>
+                                <div class="form-group col-md-3"><input type="text" class="form-control" name="TradeMileage" placeholder="Mileage" data-trade required /></div>
+                                <div class="form-group col-md-3"><input type="text" class="form-control" name="TradeVIN" placeholder="VIN" data-trade required /></div>
+                                <div class="form-group col-md-3"><input type="text" class="form-control" name="TradePayoffValue" placeholder="Payoff Value" data-trade required /></div>
+                            </div>
+                            <div class="form-group text-center">
+                                <textarea class="form-control w-75 mx-auto" name="TradeNotes" placeholder="Notes" data-trade required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" onclick="validateStep1()">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div id="step2" style="display:none">
+                    <div class="card p-4 shadow-sm">
+                        <h3 class="text-center font-weight-bold mb-4">Personal Information</h3>
+
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-4">
+                                <label>First Name *</label>
+                                <input type="text" class="form-control" name="FirstName" required />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Last Name *</label>
+                                <input type="text" class="form-control" name="LastName" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-4">
+                                <label>Email *</label>
+                                <input type="email" class="form-control" name="Email" required />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Phone *</label>
+                                <input type="text" class="form-control" name="Phone" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-4">
+                                <label>SSN *</label>
+                                <input type="text" class="form-control" maxlength="9" name="SSN" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-4">
+                                <label>License # *</label>
+                                <input type="text" class="form-control" name="LicenseNumber" required />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>License Expiry *</label>
+                                <input type="date" class="form-control" name="LicenseExpiry" required />
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" onclick="validateStep2()">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div id="step3" style="display:none">
+                    <div class="card p-4 shadow-sm">
+                        <h3 class="text-center font-weight-bold mb-4">Residential Information</h3>
+
+                        <div class="form-group">
+                            <label>Address *</label>
+                            <input type="text" class="form-control" name="Address" placeholder="Street Address" required />
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>City *</label>
+                                <select class="form-control" name="City" required>
+                                    <option value="">Select City</option>
+                                    <option value="Chicago">Chicago</option>
+                                    <option value="Aurora">Aurora</option>
+                                    <option value="Naperville">Naperville</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>State *</label>
+                                <select class="form-control" name="State" required>
+                                    <option value="">Select State</option>
+                                    <option value="Illinois">Illinois</option>
+                                    <option value="Indiana">Indiana</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Zip Code *</label>
+                                <input type="text" class="form-control" name="ZipCode" placeholder="Zip Code" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Monthly Rent *</label>
+                                <input type="text" class="form-control" name="MonthlyRent" required />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Who do you pay rent to? *</label>
+                                <input type="text" class="form-control" name="RentPayee" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mother’s Maiden Name *</label>
+                            <input type="text" class="form-control" name="MothersMaidenName" required />
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn btn-secondary mr-2" onclick="showStep(2)">Back</button>
+                            <button type="button" class="btn btn-primary" onclick="validateStep3()">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div id="step4" style="display:none">
+                    <div class="card p-4 shadow-sm">
+                        <h3 class="text-center font-weight-bold mb-4">Additional Income</h3>
+                        <form id="applicationForm">
+                            <div class="form-row justify-content-center">
+                                <div class="form-group col-md-6">
+                                    <label>Amount ($) *</label>
+                                    <input type="number" class="form-control" name="AdditionalIncomeAmount" placeholder="Income Amount" required />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Income Source *</label>
+                                    <input type="text" class="form-control" name="IncomeSource" placeholder="e.g., Part-Time Job, Rent" required />
+                                </div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <button class="btn btn-secondary mr-2" type="button" onclick="showStep(3)">Back</button>
+                                <button type="submit" class="btn btn-success">Submit Application</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card p-4 mb-4 bg-light border">
+                <h5 class="font-weight-bold text-primary mb-3">Dealer Information</h5>
+                <p><strong>Phone:</strong> (815)-779-6638</p>
+                <p><strong>Address:</strong> 15523 Weber Rd Unit 106, Lockport, IL 60446</p>
+                <p><strong>Opening Hours:</strong></p>
+                <ul class="list-unstyled ml-2">
+                    <li>Mon-Sat: 08:00 am – 06:00 pm</li>
+                    <li>Sunday: <span class="text-danger">Closed</span></li>
+                </ul>
+            </div>
+           @if (TempData["Message"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["Message"]
+    </div>
+}
+
+<form id="requestForm" asp-action="request" asp-controller="Website" method="post" onsubmit="return validateRequestForm();">
+    <div class="card p-3 shadow-sm">
+        <h6 class="font-weight-bold">Request More Info</h6>
+
+        <input type="text" id="firstName" name="FirstName" class="form-control mb-2" placeholder="First Name *" required />
+        <input type="text" id="lastName" name="LastName" class="form-control mb-2" placeholder="Last Name *" required />
+        <input type="email" id="email" name="Email" class="form-control mb-2" placeholder="Email *" required />
+        <input type="tel" id="phone" name="Phone" class="form-control mb-2" placeholder="Phone *" required />
+        <textarea id="message" name="Message" class="form-control mb-2" placeholder="Enter your message here *" required></textarea>
+
+        <div class="mb-2">
+            <label><input type="checkbox" name="PreferCall" value="true" /> Call</label>
+            <label class="ml-3"><input type="checkbox" name="PreferSMS" value="true" /> SMS</label>
+            <label class="ml-3"><input type="checkbox" name="PreferEmail" value="true" /> Email</label>
+        </div>
+
+        <button type="submit" class="btn btn-outline-primary w-100 mt-3">Submit</button>
+    </div>
+</form>
+
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section ftco-no-pt bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 heading-section text-center ftco-animate mb-5" style="padding-top: 80px;">
+                <h2 class="mb-2" style="font-size: 32px; font-weight: 700; color: #1a1a1a; text-transform: uppercase; letter-spacing: 1px;">
+                    <i class="fas fa-car mr-2 text-primary"></i> Featured Vehicles
+                </h2>
+                <p class="lead" style="color: #666;">Explore our premium collection of luxury and performance cars</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="carousel-car owl-carousel">
+                    @foreach (var car in ViewBag.Cars as List<Car_web.Models.Car>)
+                    {
+                        var firstImage = (car.ImagePath ?? "").Split(',').FirstOrDefault() ?? "default.jpg";
+                        <div class="item">
+                            <div style="border-radius: 15px; overflow: hidden; background: #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease; border: 1px solid #eee;">
+                                <!-- Car Image -->
+                                <div style="background-image: url('@Url.Content("~/uploads/" + firstImage)'); height: 240px; background-size: cover; background-position: center;">
+                                </div>
+
+                                <!-- Car Details -->
+                                <div style="padding: 20px;">
+                                    <h4 style="margin: 0 0 8px; font-size: 20px; color: #222; font-weight: 600;">@car.Brand</h4>
+                                    <p style="margin: 0 0 12px; color: #777; font-size: 15px;">@car.Model</p>
+
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                        <span style="color: #007bff; font-weight: bold; font-size: 18px;">$@string.Format("{0:N0}", car.Price)</span>
+                                        <a href="@Url.Action("cardetail", "Website", new { id= car.Stock_id })" style="padding: 8px 16px; background-color: #007bff; color: #fff; font-size: 14px; border-radius: 6px; text-decoration: none;">
+                                            View Details 
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- JavaScript -->
+<script>
+    function showStep(step) {
+        for (let i = 1; i <= 4; i++) {
+            const div = document.getElementById('step' + i);
+            if (div) div.style.display = 'none';
+        }
+        const target = document.getElementById('step' + step);
+        if (target) target.style.display = 'block';
+    }
+
+    function toggleTradeForm(show) {
+        const tradeForm = document.getElementById('tradeForm');
+        if (tradeForm) {
+            tradeForm.style.display = show ? 'block' : 'none';
+        }
+    }
+
+    function toggleRelationship() {
+        const selectedType = document.querySelector('input[name="ApplicationType"]:checked').value;
+        const relationshipField = document.getElementById('relationshipField');
+
+        if (selectedType === 'joint') {
+            relationshipField.style.display = 'block';
+        } else {
+            relationshipField.style.display = 'none';
+        }
+    }
+
+    function toggleRelationship() {
+        const relationshipField = document.getElementById('relationshipField');
+        const jointRadio = document.querySelector('input[name="ApplicationType"][value="joint"]');
+        relationshipField.style.display = jointRadio.checked ? 'block' : 'none';
+    }
+
+    function toggleTradeForm(show) {
+        document.getElementById('tradeForm').style.display = show ? 'block' : 'none';
+    }
+
+    function validateStep1() {
+        const form = document.querySelector('#step1');
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (field.offsetParent === null) return;
+            if (!field.value || (field.type === 'radio' && !form.querySelector(`input[name="${field.name}"]:checked`))) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        if (isValid) {
+            showStep(2);
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Incomplete Form',
+                text: 'Please fill out all required fields in Step 1 before proceeding.',
+                confirmButtonColor: '#3085d6'
+            });
+        }
+    }
+
+    function validateStep2() {
+        const form = document.querySelector('#step2');
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        if (isValid) {
+            showStep(3);
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Incomplete Form',
+                text: 'Please fill out all required fields in Step 2 before proceeding.',
+                confirmButtonColor: '#3085d6'
+            });
+        }
+    }
+
+    function validateStep3() {
+        const form = document.querySelector('#step3');
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        if (isValid) {
+            showStep(4);
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Incomplete Form',
+                text: 'Please fill out all required fields in Step 3 before proceeding.',
+                confirmButtonColor: '#3085d6'
+            });
+        }
+    }
+
+    document.getElementById('applicationForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        if (isValid) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Application Submitted!',
+                text: 'Thank you for your submission. We will review your application shortly.',
+                confirmButtonColor: '#28a745'
+            });
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Incomplete Form',
+                text: 'Please fill out all required fields before submitting.',
+                confirmButtonColor: '#dc3545'
+            });
+        }
+    });
+
+</script>
+
+

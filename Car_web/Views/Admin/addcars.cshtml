@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "_Dashboard";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Add New Car</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label>Stock id</label>
+                    <input type="text" name="Stock_id" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Vin #</label>
+                    <input type="text" name="Vin" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Brand</label>
+                    <input type="text" name="Brand" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Model</label>
+                    <input type="text" name="Model" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Year</label>
+                    <input name="Year" type="number" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Price</label>
+                    <input name="Price" type="number" step="0.01" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Seats</label>
+                    <input type="number" name="Seats" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Mileage</label>
+                    <input name="Mileage" type="number" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Fuel Type</label>
+                    <input type ="text" name="FuelType" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Transmission</label>
+                    <input type="text" name="Transmission" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Interior Color</label>
+                    <input type="text" name="Interior_Color" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Exterior Color</label>
+                    <input type="text" name="Exteriro_Color" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Engine</label>
+                    <input type="text" name="Engine" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Trim</label>
+                    <input type="text" name="Trim" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea type="text" name="Description" class="form-control" rows="4"></textarea>
+                </div>
+                    
+                <div class="form-group">
+                    <label>Upload Car Image</label>
+                    <input name="ImagePath" multiple type="file" />
+                </div>
+
+                <button type="submit" class="btn btn-success">Add Car</button>
+            </form>
+        </div>
+    </div>
+</div>

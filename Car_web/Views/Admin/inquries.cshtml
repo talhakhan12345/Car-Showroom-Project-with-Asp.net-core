@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Car_web.Models.contact_us>
+
+@{
+    ViewData["Title"] = "Contact Inquiries";
+    Layout = "_Dashboard";
+}
+
+<div class="container-fluid mt-4">
+    <h2 class="mb-4 font-weight-bold text-primary">Contact Inquiries</h2>
+
+    <!-- Search Filter -->
+    <div class="form-group">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search by name, email or phone..." />
+    </div> 
+
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+            <table class="table table-bordered table-hover" id="contactTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Message</th>
+                        <th>Preferred Reply</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Email</td>
+                            <td>@item.Phone</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#msgModal-@item.Id">
+                                    View
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="msgModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="msgLabel-@item.Id" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="msgLabel-@item.Id">Message from @item.Name</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>@item.Message</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@item.PreferredReplyMethods</td>
+                            <td>@item.SubmittedAt.ToString("dd MMM yyyy hh:mm tt")</td>
+                            <td>
+                                @if (item.IsRead)
+                                {
+                                    <span class="badge badge-secondary">Read</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-primary">Unread</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="ToggleRead" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
+                                    @(item.IsRead ? "Mark Unread" : "Mark Read")
+                                </a>
+                                <a asp-action="DeleteInquiry" asp-route-id="@item.Id" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete this message?');">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Simple search filter
+        document.getElementById('searchInput').addEventListener('keyup', function () {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#contactTable tbody tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+    </script>
+}

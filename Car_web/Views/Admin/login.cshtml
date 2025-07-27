@@ -1,0 +1,93 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login - Carbook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            background-color: #f4f6fc;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a237e;
+        }
+
+        .form-control {
+            height: 45px;
+        }
+
+        .btn-primary {
+            background-color: #1a237e;
+            border-color: #1a237e;
+        }
+
+            .btn-primary:hover {
+                background-color: #000851;
+                border-color: #000851;
+            }
+
+        .logo-text {
+            color: #2962ff;
+            font-weight: bold;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="text-center mb-4">
+                <span class="logo-text">CARBOOK ADMIN</span>
+            </div>
+            <h4 class="login-title text-center">Admin Login</h4>
+            <form method="post" action="/Admin/Login">
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="text" name="email" id="Email" class="form-control" placeholder="Enter your Gmail address" required>
+                </div>
+                <div class="form-group">
+                    <label for="Password">Password</label>
+                    <input type="password" name="pwd" id="Password" class="form-control" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+
+                @if (ViewBag.message != null)
+                {
+                    <div class="alert alert-danger text-center mt-3">@ViewBag.message</div>
+                }
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+pr yai login kay view mei

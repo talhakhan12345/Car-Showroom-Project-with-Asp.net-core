@@ -1,0 +1,555 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model Car
+
+@{
+   var images = Model.ImagePath.Split(',');
+}
+
+
+
+<section class="ftco-section ftco-car-details bg-light py-5" style="padding-top: 100px;">
+    <div class="container">
+
+        <!-- Image Carousel -->
+        @if (images.Length > 0)
+        {
+            <div class="row justify-content-center mt-5 mb-4">
+                <div class="col-md-10 text-center">
+                    <div id="carImageCarousel" class="carousel slide shadow-lg rounded" data-ride="carousel">
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < images.Length; i++)
+                            {
+                                var imagePath = images[i].Trim();
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="@Url.Content("~/uploads/" + imagePath)" class="d-block w-100 img-fluid" alt="Car Image"
+                                         style="height: 500px; object-fit: cover; border-radius: 10px;" />
+                                </div>
+                            }
+                        </div>
+                        <a class="carousel-control-prev" href="#carImageCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carImageCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Car Basic Info -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-10 text-center">
+                <h2 class="mb-2 font-weight-bold">@Model.Brand</h2>
+                <p class="text-muted mb-2">@Model.Brand - @Model.Model (@Model.Year)</p>
+               <p class="price text-success font-weight-bold" style="font-size: 28px;">
+                  $@String.Format("{0:N0}", Model.Price)
+               </p>
+            </div>
+        </div>
+        
+@if (TempData["TestDriveMessage"] != null)
+{
+    <div class="alert alert-success text-center" role="alert">
+        @TempData["TestDriveMessage"]
+    </div>
+}
+
+        <!-- Specs + Sidebar -->
+        <div class="row">
+            <!-- Specs - 70% -->
+            <div class="col-lg-8 col-md-12">    
+                <div class="mb-4">
+                    <h4 class="font-weight-bold text-dark">
+                        <i class="fas fa-car text-primary mr-2"></i> Vehicle Info
+                    </h4>
+                </div>
+                <div class="row">
+                    @* Each spec block: col-md-3 (4 per row) *@
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-tachometer-alt fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Mileage</h6>
+                            <span style="font-size: 13px;">@Model.Mileage km</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-calendar-alt fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Year</h6>
+                            <span style="font-size: 13px;">@Model.Year</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-gas-pump fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Fuel</h6>
+                            <span style="font-size: 13px;">@Model.FuelType</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-cogs fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Transmission</h6>
+                            <span style="font-size: 13px;">@Model.Transmission</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-car fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Brand</h6>
+                            <span style="font-size: 13px;">@Model.Brand</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-car-side fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Model</h6>
+                            <span style="font-size: 13px;">@Model.Model</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-users fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Seats</h6>
+                            <span style="font-size: 13px;">@Model.Seats</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-barcode fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Stock #</h6>
+                            <span style="font-size: 13px;">@Model.Stock_id</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-cogs fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Engine</h6>
+                            <span style="font-size: 13px;">@Model.Engine</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-chair fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Interior</h6>
+                            <span style="font-size: 13px;">@Model.Interior_Color</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-paint-roller fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Exterior</h6>
+                            <span style="font-size: 13px;">@Model.Exteriro_Color</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="p-3 bg-white shadow-sm rounded">
+                            <div class="icon mb-2"><i class="fas fa-layer-group fa-lg text-primary"></i></div>
+                            <h6 class="mb-0">Trim</h6>
+                            <span style="font-size: 13px;">@Model.Trim</span>
+                        </div>
+                    </div>
+                    <!-- Description -->
+                    <div class="col-lg-12 col-md-12">
+                        <div class="bg-white shadow-sm p-4 mb-4" style="border-radius: 15px;">
+                            <h4 class="mb-3">
+                                <i class="fas fa-file-alt text-primary"></i> Description
+                            </h4>
+                            <p>@Model.Description</p>
+                        </div>
+                    </div>
+
+                    <!-- Finance Calculator -->
+                    <div class="col-lg-10">
+                        <div class="bg-white shadow-sm p-4 mb-4 rounded-lg border" style="border-radius: 20px !important;">
+                            <h4 class="text-center text-primary mb-4 font-weight-bold">
+                                <i class="fas fa-calculator mr-2"></i> Personalize Your Financing
+                            </h4>
+
+                            <!-- Estimated Credit Score -->
+                            <div class="text-center mb-4">
+                                <label class="d-block font-weight-semibold mb-2">Estimated Credit Score</label>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-outline-dark px-4 py-2"><input type="radio" name="creditScore" value="640"> ≤ 640</label>
+                                    <label class="btn btn-outline-dark px-4 py-2"><input type="radio" name="creditScore" value="699"> 641-699</label>
+                                    <label class="btn btn-outline-dark px-4 py-2 active"><input type="radio" name="creditScore" value="749" checked> 700-749</label>
+                                    <label class="btn btn-outline-dark px-4 py-2"><input type="radio" name="creditScore" value="850"> 750-850</label>
+                                </div>
+                            </div>
+
+                            <!-- Monthly Payment -->
+                            <div class="form-group mb-4">
+                                <label class="font-weight-semibold">Monthly Payment Estimate</label>
+                                <input type="range" class="form-control-range mb-2" min="50" max="2000" id="monthlySlider" value="104" oninput="updateMonthly(this.value)">
+                                <input type="number" class="form-control form-control-lg" id="monthlyInput" value="104" />
+                            </div>
+
+                            <!-- Down Payment -->
+                            <div class="form-group mb-4">
+                                <label class="font-weight-semibold">Down Payment</label>
+                                <input type="range" class="form-control-range mb-2" min="0" max="5000" id="downSlider" value="1000" oninput="updateDown(this.value)">
+                                <input type="number" class="form-control form-control-lg" id="downInput" value="1000" />
+                            </div>
+
+                            <!-- Trade-In -->
+                            <div class="form-group mb-4">
+                                <label class="font-weight-semibold">Trade-In Value</label>
+                                <input type="number" class="form-control form-control-lg" id="tradeInValue" value="0" />
+                            </div>
+
+                            <!-- Term Length -->
+                            <div class="text-center mb-4">
+                                <label class="d-block font-weight-semibold mb-2">Term Length</label>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-outline-secondary px-4 py-2"><input type="radio" name="termLength" value="48"> 48</label>
+                                    <label class="btn btn-outline-secondary px-4 py-2 active"><input type="radio" name="termLength" value="60" checked> 60</label>
+                                    <label class="btn btn-outline-secondary px-4 py-2"><input type="radio" name="termLength" value="72"> 72</label>
+                                </div>
+                            </div>
+
+                            <!-- Payment Summary -->
+                            <div class="text-center mt-4">
+                                <h5 id="paymentDisplay" class="text-success font-weight-bold">$104/mo</h5>
+                                <p class="text-muted" id="paymentDetails">11.67% APR • 60 Months • $1000 Down</p>
+                            </div>
+                           <!-- Finance Submit Button -->
+                            <div class="text-center mt-4">
+                                <a href="@Url.Action("Finance", "Website", new {
+                                    stockId = Model.Stock_id,
+                                    brand = Model.Brand,
+                                    model = Model.Model,
+                                    year = Model.Year,
+                                    price = Model.Price,
+                                    vin = Model.Vin
+                                })" 
+                                   class="btn btn-primary btn-lg px-5 py-2 rounded-pill shadow-sm">
+                                    <i class="fas fa-paper-plane mr-2"></i> Apply for Financing
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Sticky Sidebar - 30% -->
+<div class="col-lg-4 col-md-12">
+    <div class="position-sticky" style="top: 100px; z-index: 999;">
+
+        <!-- Quick Actions -->
+        <div class="bg-white shadow-sm rounded-lg p-4 mb-4" style="border-radius: 20px !important;">
+            <h5 class="text-dark font-weight-bold mb-4" style="font-size: 18px;">
+                <i class="fas fa-tools text-primary mr-2"></i> Quick Actions
+            </h5>
+
+            <!-- Pre-Approved Button -->
+            <a href="@Url.Action("Finance", "Website", new { 
+                stockId = Model.Stock_id, 
+                brand = Model.Brand, 
+                model = Model.Model, 
+                year = Model.Year, 
+                price = Model.Price, 
+                vin = Model.Vin 
+            })"
+               class="btn btn-primary btn-block font-weight-semibold mb-3 shadow-sm"
+               style="font-size: 15px; border-radius: 15px;">
+                <i class="fas fa-file-signature mr-2"></i> GET PRE-APPROVED
+            </a>
+
+            <!-- Schedule Test Drive -->
+            <a href="#" class="btn btn-outline-primary btn-block font-weight-semibold mb-3 shadow-sm"
+               data-toggle="modal" data-target="#testDriveModal"
+               style="font-size: 15px; border-radius: 15px;">
+                <i class="fas fa-calendar-check mr-2"></i> SCHEDULE A TEST-DRIVE
+            </a>
+            
+            <!-- Modal Trigger Button -->
+<a href="#" 
+   class="btn btn-outline-secondary btn-block font-weight-semibold shadow-sm"
+   style="font-size: 15px; border-radius: 15px;"
+   data-toggle="modal" data-target="#tradeInModal">
+   <i class="fas fa-exchange-alt mr-2"></i> VALUE YOUR TRADE-IN
+</a>
+
+
+        <!-- Dealership Info -->
+        <div class="bg-white shadow-sm rounded-lg p-4" style="border-radius: 20px !important;">
+            <h5 class="text-dark font-weight-bold mb-4" style="font-size: 18px;">
+                <i class="fas fa-building text-primary mr-2"></i> Fox Valley Reliable
+            </h5>
+
+            <p class="mb-3 d-flex align-items-center">
+                <i class="fas fa-phone-alt text-primary mr-2"></i>
+                <a href="tel:8157796638" class="text-dark font-weight-semibold" style="font-size: 16px;">
+                    (815)-779-6638
+                </a>
+            </p>
+
+            <p class="mb-0 d-flex align-items-start">
+                <i class="fas fa-map-marker-alt text-danger mr-2 mt-1"></i>
+                <span class="text-dark" style="font-size: 15px; font-weight: 500;">
+                    15523 Weber Rd, Unit 106<br />
+                    Lockport, Illinois 60446
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+        <!-- Test Drive Modal -->
+<div class="modal fade" id="testDriveModal" tabindex="-1" role="dialog" aria-labelledby="testDriveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content border-0 shadow-lg rounded-lg">
+            <div class="modal-header bg-dark text-white border-bottom-0">
+                <h5 class="modal-title font-weight-bold text-white">
+                    <i class="fas fa-car-side mr-2 text-warning"></i>Schedule a Test Drive 
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form method="post" asp-action="SubmitRequest" asp-controller="Website" id="testDriveForm">
+                <div class="modal-body px-5 pt-4 pb-3">
+                    <input type="hidden" name="StockNumber" value="@Model.Stock_id" />
+                    <input type="hidden" name="CarName" value="@Model.Brand @Model.Model" />
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-semibold">Full Name</label>
+                            <input type="text" name="FullName" class="form-control form-control-lg" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-semibold">Email</label>
+                            <input type="email" name="Email" class="form-control form-control-lg" placeholder="example@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-semibold">Phone Number</label>
+                            <input type="tel" name="PhoneNumber" class="form-control form-control-lg" placeholder="+1 123 456 7890" required>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="font-weight-semibold">Preferred Date</label>
+                            <input type="date" name="PreferredDate" class="form-control form-control-lg" required>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="font-weight-semibold">Preferred Time</label>
+                            <input type="time" name="PreferredTime" class="form-control form-control-lg" required>
+                        </div>
+                    </div>
+
+                    <div id="successMsg" class="alert alert-success d-none mt-3"></div>
+                </div>
+
+                <div class="modal-footer bg-light border-top-0 px-5 py-3">
+                    <button type="submit" class="btn btn-warning btn-lg font-weight-bold px-4">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit Request
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+ <!-- Trade-In Modal -->
+<div class="modal fade" id="tradeInModal" tabindex="-1" role="dialog" aria-labelledby="tradeInModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content border-0 shadow-lg rounded-lg">
+      <div class="modal-header bg-dark text-white border-bottom-0">
+        <h5 class="modal-title font-weight-bold text-white" id="tradeInModalLabel">
+          <i class="fas fa-exchange-alt mr-2 text-warning"></i>Trade-In Request
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form asp-action="SubmitTradeIn" asp-controller="Website" method="post" onsubmit="return validateTradeInForm();">
+        <div class="modal-body px-5 pt-4 pb-3">
+          <div class="form-group">
+            <label class="font-weight-semibold" for="vehicleInfo">Vehicle Info</label>
+            <input type="text" class="form-control form-control-lg" id="vehicleInfo" name="VehicleInfo" placeholder="Year, Make, Model, Trim" required maxlength="100">
+          </div>
+
+          <div class="form-group">
+            <label class="font-weight-semibold" for="mileage">Mileage</label>
+            <input type="number" class="form-control form-control-lg" id="mileage" name="Mileage" min="0" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="font-weight-semibold" for="firstName">First Name</label>
+              <input type="text" class="form-control form-control-lg" id="firstName" name="FirstName" pattern="^[A-Za-z\s]+$" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="font-weight-semibold" for="lastName">Last Name</label>
+              <input type="text" class="form-control form-control-lg" id="lastName" name="LastName" pattern="^[A-Za-z\s]+$" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="font-weight-semibold" for="email">Email</label>
+            <input type="email" class="form-control form-control-lg" id="email" name="Email" required>
+          </div>
+
+          <div class="form-group">
+            <label class="font-weight-semibold" for="phone">Phone Number</label>
+            <input type="tel" class="form-control form-control-lg" id="phone" name="Phone"
+              pattern="^(\+?1\s?)?(\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}$"
+              placeholder="e.g. +1 312-555-1234 or 312-555-1234" required>
+          </div>
+
+          <div class="form-group">
+            <label class="font-weight-semibold" for="zipCode">ZIP Code</label>
+            <input type="text" class="form-control form-control-lg" id="zipCode" name="ZipCode"
+                    placeholder="e.g. 60616" required>
+          </div>
+
+          <label class="font-weight-semibold">Preferred Contact Method:</label>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="contactCall" name="ContactCall">
+            <label class="form-check-label" for="contactCall">Call</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="contactSMS" name="ContactSMS">
+            <label class="form-check-label" for="contactSMS">SMS</label>
+          </div>
+          <div class="form-check mb-2">
+            <input type="checkbox" class="form-check-input" id="contactEmail" name="ContactEmail">
+            <label class="form-check-label" for="contactEmail">Email</label>
+          </div>
+          <div class="text-danger" id="contactError"></div>
+
+          <div class="form-check mt-3">
+            <input type="checkbox" class="form-check-input" id="consent" name="Consent" required>
+            <label class="form-check-label" for="consent">I agree to the terms and conditions</label>
+          </div>
+
+          <div id="tradeSuccessMsg" class="alert alert-success d-none mt-3"></div>
+        </div>
+
+        <div class="modal-footer bg-light border-top-0 px-5 py-3">
+          <button type="submit" class="btn btn-warning btn-lg font-weight-bold px-4">
+            <i class="fas fa-paper-plane mr-2"></i>Submit Request
+          </button>
+          <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @section Scripts {
+<script>
+    // $(document).ready(function () {
+    //     ------------------- TEST DRIVE FORM SUBMIT -------------------
+    //     $("#testDriveForm").on("submit", function (e) {
+    //         e.preventDefault();
+    //         var formData = $(this).serialize();
+    //         $.ajax({
+    //             url: "/TestDrive/SubmitRequest",
+    //             type: "POST",
+    //             data: formData,
+    //             success: function (res) {
+    //                 if (res.success) {
+    //                     $("#successMsg").removeClass("d-none").text("Your test drive has been scheduled!");
+    //                     $("#testDriveForm")[0].reset();
+    //                 } else {
+    //                     alert("Submission failed: " + res.message);
+    //                 }
+    //             },
+    //             error: function () {
+    //                 alert("Something went wrong!");
+    //             }
+    //         });
+    //     });
+
+       //  ------------------- TRADE-IN MODAL: STEP SWITCH -------------------
+       // $(document).ready(function () {
+       //      $('#toStep2').on('click', function () {
+       //          $('.step-1').addClass('d-none');
+       //          $('.step-2').removeClass('d-none');
+       //      });
+
+       //      $('#backToStep1').on('click', function () {
+       //          $('.step-2').addClass('d-none');
+       //          $('.step-1').removeClass('d-none');
+       //      });
+       //  });
+
+        // ------------------- SLIDERS & FINANCE SUMMARY -------------------
+        $('#monthlyInput').on('input', function () {
+            $('#monthlySlider').val(this.value);
+            updateSummary();
+        });
+
+        $('#downInput').on('input', function () {
+            $('#downSlider').val(this.value);
+            updateSummary();
+        });
+
+        $('input[name="termLength"]').on('change', function () {
+            updateSummary();
+        });
+
+        updateSummary(); // On page load
+    });
+
+    function updateMonthly(val) {
+        $('#monthlyInput').val(val);
+        updateSummary();
+    }
+
+    function updateDown(val) {
+        $('#downInput').val(val);
+        updateSummary();
+    }
+
+    function updateSummary() {
+        const monthly = $('#monthlyInput').val();
+        const down = $('#downInput').val();
+        const term = $('input[name="termLength"]:checked').val();
+
+        $('#paymentDisplay').text(`$${monthly}/mo`);
+        $('#paymentDetails').text(`11.67% APR • ${term} Months • $${down} Down`);
+
+        //trade in validation
+        function validateTradeInForm() {
+  const contactMethods = document.querySelectorAll('.contact-option:checked');
+  const error = document.getElementById('contactError');
+
+  if (contactMethods.length === 0) {
+    error.textContent = "Please select at least one preferred contact method.";
+    return false;
+  }
+
+  error.textContent = "";
+  return true;
+}
+    }
+</script>
+}
+    </div>
+</section>
+
+     
+

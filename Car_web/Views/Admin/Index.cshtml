@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "_Dashboard";
+}
+
+<div class="ecommerce-widget">
+
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-muted">Total Cars Listed</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1">@ViewBag.TotalCars</h1>
+                    </div>
+                    <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                        <span><i class="fa fa-fw fa-car"></i></span><span>+5%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-muted">New Inquiries</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1">@ViewBag.TotalInquiries</h1>
+                    </div>
+                    <div class="metric-label d-inline-block float-right text-primary font-weight-bold">
+                        <span><i class="fa fa-fw fa-envelope"></i></span><span>+12%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-muted">Pending Sell Requests</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1">@ViewBag.TotalFinance</h1>
+                    </div>
+                    <div class="metric-label d-inline-block float-right text-warning font-weight-bold">
+                        <span><i class="fa fa-fw fa-clock"></i></span><span>+3%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-muted">Recent Messages</h5>
+                    <ul class="list-group">
+                        @foreach (var msg in ViewBag.RecentMessages as List<Car_web.Models.contact_us>)
+                        {
+                            <a href="@Url.Action("inquries", "Admin")" class="list-group-item list-group-item-action">
+                                <strong>@msg.Name</strong>
+                                <span class="text-muted">
+                                    - @msg.Message.Substring(0, Math.Min(msg.Message.Length, 50))...
+                                </span>
+                            </a>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-muted">Low Stock Alerts</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">Honda City 2016 - Only 2 left</li>
+                        <li class="list-group-item">Toyota Prius 2015 - Only 1 left</li>
+                        <li class="list-group-item">Suzuki Wagon R - Only 3 left</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,318 @@
+﻿@model Car_web.Models.contact_us
+@using Car_web.Models
+@{
+    Layout = "_Layout";
+}
+
+<!-- Hero Section -->
+<section class="hero-wrap hero-wrap-2 js-fullheight  bg-dark text-white text-center py-5" style="background-image: url('../images/bg_3.jpg'); min-height: 450px; height: 450px; max-height: 560px;" data-stellar-background-ratio="0.5">
+    <!-- Overlay -->
+    <div style="position: absolute; top: 0; bottom: 0; right: 0; left: 0; background: rgba(0,0,0,0.5); z-index: 1;"></div>
+
+    <!-- Centered Content -->
+    <div class="container d-flex flex-column justify-content-center align-items-center"
+         style="height: 100%; position: relative; z-index: 2;">
+        <h1 class="text-white display-4 font-weight-bold animate__animated animate__fadeInDown">
+            Get In Touch With Our Experts
+        </h1>
+        <p class="lead text-white animate__animated animate__fadeInUp mb-3">
+            We're here to answer all your questions and help you find the perfect luxury vehicle.
+        </p>
+        <p class="breadcrumbs text-white animate__animated animate__fadeInUp">
+            <span>
+                <a href="@Url.Action("Index", "Website")" class="text-light">
+                    Home <i class="ion-ios-arrow-forward"></i>
+                </a>
+            </span>
+            <span>Contact</span>
+        </p>
+    </div>
+</section>
+
+
+<!-- Contact Info + Form -->
+<section class="ftco-section contact-section bg-light py-5">
+    <div class="container">
+
+        <!-- Heading -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-7 text-center">
+                <h2 class="mb-4 font-weight-bold">We’re Here to Help</h2>
+                <p class="lead text-muted">Have a question or need assistance? Contact our team and we’ll be happy to help you find your dream luxury car.</p>
+            </div>
+        </div>
+
+        <!-- Contact Info Cards -->
+        <div class="row d-flex contact-info mb-5">
+            <div class="col-md-4 d-flex">
+                <div class="info bg-white shadow-sm p-4 rounded w-100">
+                    <div class="icon d-flex align-items-center justify-content-center mb-3 text-primary">
+                        <i class="fas fa-map-marker-alt fa-2x"></i>
+                    </div>
+                    <h5 class="font-weight-bold">Address</h5>
+                    <p class="mb-0">15523 Weber Rd Unit 106, Lockport, Illinois 60446</p>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex">
+                <div class="info bg-white shadow-sm p-4 rounded w-100">
+                    <div class="icon d-flex align-items-center justify-content-center mb-3 text-primary">
+                        <i class="fas fa-phone-alt fa-2x"></i>
+                    </div>
+                    <h5 class="font-weight-bold">Phone</h5>
+                    <p class="mb-0"><a href="tel:+16305551234" class="text-dark">+1 815-779-6638</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex">
+                <div class="info bg-white shadow-sm p-4 rounded w-100">
+                    <div class="icon d-flex align-items-center justify-content-center mb-3 text-primary">
+                        <i class="fas fa-envelope fa-2x"></i>
+                    </div>
+                    <h5 class="font-weight-bold">Email</h5>
+                    <p class="mb-0"><a href="mailto:info@foxvalleyluxurycars.com" class="text-dark">foxvellyreliablecars@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="bg-white p-5 shadow-sm rounded contact-form">
+                    @if (TempData["ContactMessage"] != null)
+                    {
+                        <div class="alert alert-success text-center" role="alert">
+                            @TempData["ContactMessage"]
+                        </div>
+                    }
+
+                    <form id="contactForm" asp-action="Contact" asp-controller="Website" method="post">
+                        <div class="form-group">
+                            <label for="Name"><i class="fas fa-user text-primary mr-2"></i> Full Name</label>
+                            <input asp-for="Name" id="Name" class="form-control" placeholder="Your Full Name" />
+                            <small class="text-danger" id="nameError"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Email"><i class="fas fa-envelope text-primary mr-2"></i> Email</label>
+                            <input asp-for="Email" id="Email" class="form-control" placeholder="Your Email Address" />
+                            <small class="text-danger" id="emailError"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Phone"><i class="fas fa-phone text-primary mr-2"></i> Phone</label>
+                            <input asp-for="Phone" id="Phone" class="form-control" placeholder="Your Phone Number" />
+                            <small class="text-danger" id="phoneError"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Message"><i class="fas fa-comment-dots text-primary mr-2"></i> Message</label>
+                            <textarea asp-for="Message" id="Message" class="form-control" rows="6" placeholder="Your Message..."></textarea>
+                            <small class="text-danger" id="messageError"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold">Preferred way to get a reply:</label><br />
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="PreferredReplyMethods" value="Call" id="call" />
+                                <label class="form-check-label" for="call">Call</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="PreferredReplyMethods" value="SMS" id="sms" />
+                                <label class="form-check-label" for="sms">SMS</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="PreferredReplyMethods" value="Mail" id="mail" />
+                                <label class="form-check-label" for="mail">Mail</label>
+                            </div>
+                            <br />
+                            <small class="text-danger" id="checkboxError"></small>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Map -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-12">
+                <div class="mapouter">
+                    <div class="gmap_canvas">
+                        <iframe width="100%" height="400" src="https://maps.google.com/maps?q=Fox%20Valley%20Mall%20Aurora%20IL&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-section ftco-no-pt bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Remove animation classes for now -->
+            <div class="col-md-12 heading-section text-center mb-5" style="padding-top: 80px;">
+                <h2 class="mb-3" style="font-size: 44px; font-weight: 800; color: #1a1a1a;">
+                    <i class="fas fa-car-side text-primary mr-2"></i> Featured Vehicles
+                </h2>
+                <p style="color: #555; font-size: 16px;">Browse our exclusive collection...</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="carousel-car owl-carousel">
+                    @foreach (var row in (List<Car_web.Models.Car>)ViewBag.FeaturedCars)
+                    {
+                        var firstImage = row.ImagePath?.Split(',').FirstOrDefault();
+                        <div class="item" style="padding: 10px;">
+                            <div style="
+                            border-radius: 15px;
+                            overflow: hidden;
+                            background: #fff;
+                            border: 1px solid #ddd;
+                            transition: all 0.3s ease;
+                            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+                            transform: translateY(0);
+                        "
+                                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 30px rgba(0, 0, 0, 0.12)';"
+                                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.08)';">
+                                <!-- Car Image -->
+                                <div style="background-image: url('@Url.Content("~/uploads/" + firstImage)'); height: 240px; background-size: cover; background-position: center;">
+                                </div>
+
+                                <!-- Car Details -->
+                                <div style="padding: 20px;">
+                                    <h4 style="margin: 0 0 8px; font-size: 22px; color: #222; font-weight: 700;">@row.Brand</h4>
+                                    <p style="margin: 0 0 15px; color: #777; font-size: 15px;">@row.Model</p>
+
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                        <span style="color: #007bff; font-weight: bold; font-size: 18px;">$@string.Format("{0:N0}", row.Price)</span>
+                                        <a href="@Url.Action("cardetail", "website", new { id = row.Stock_id })"
+                                           style="
+                                       padding: 10px 20px;
+                                       background-color: #007bff;
+                                       color: #fff;
+                                       font-size: 14px;
+                                       font-weight: 600;
+                                       border-radius: 30px;
+                                       text-decoration: none;
+                                       box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+                                       transition: background 0.3s ease;
+                                       display: inline-flex;
+                                       align-items: center;
+                                        ">
+                                            <i class="fas fa-arrow-right mr-1" style="margin-right: 6px;"></i> View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+
+    <style>
+    /* Contact Info Cards */
+    .contact-info .info {
+        transition: 0.3s ease;
+        border-left: 4px solid #007bff;
+    }
+
+    .contact-info .info:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form Controls */
+    .contact-form .form-control {
+        font-size: 17px;
+        border-radius: 10px;
+        padding: 12px 18px;
+        background-color: #f9f9f9;
+        border: 1px solid #ced4da;
+    }
+
+    .contact-form .form-control:focus {
+        border-color: #007bff;
+        background-color: #fff;
+        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.2);
+    }
+
+    .contact-form label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #343a40;
+    }
+
+    .form-check-inline {
+        margin-right: 15px;
+    }
+
+    .btn-primary {
+        border-radius: 50px;
+        font-weight: bold;
+        padding: 12px 35px;
+        font-size: 16px;
+    }
+
+    /* Google Map Styling */
+    .mapouter iframe {
+        border: 0;
+        border-radius: 15px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    }
+
+   
+</style>
+
+}
+
+@section Scripts {
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function (e) {
+            let hasError = false;
+
+            const name = document.getElementById("Name").value.trim();
+            const email = document.getElementById("Email").value.trim();
+            const phone = document.getElementById("Phone").value.trim();
+            const message = document.getElementById("Message").value.trim();
+            const checkboxes = document.querySelectorAll("input[name='PreferredReplyMethods']:checked");
+
+            document.getElementById("nameError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("phoneError").innerText = "";
+            document.getElementById("messageError").innerText = "";
+            document.getElementById("checkboxError").innerText = "";
+
+            if (name === "") {
+                document.getElementById("nameError").innerText = "Full Name is required.";
+                hasError = true;
+            }
+            if (email === "") {
+                document.getElementById("emailError").innerText = "Email is required.";
+                hasError = true;
+            }
+            if (phone === "") {
+                document.getElementById("phoneError").innerText = "Phone number is required.";
+                hasError = true;
+            }
+            if (message === "") {
+                document.getElementById("messageError").innerText = "Message is required.";
+                hasError = true;
+            }
+            if (checkboxes.length === 0) {
+                document.getElementById("checkboxError").innerText = "Please select at least one preferred reply method.";
+                hasError = true;
+            }
+
+            if (hasError) e.preventDefault();
+        });
+    </script>
+}

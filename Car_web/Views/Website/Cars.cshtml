@@ -1,0 +1,275 @@
+﻿@using System.Globalization
+@using Azure.Core
+@{
+    Layout = "_layout";
+}
+@model List<Car>
+
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('../images/bg_3.jpg'); min-height: 450px; height: 450px; max-height: 560px;" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs">
+                    <span class="mr-2"><a href="@Url.Action("Index", "Website")">Home <i class="ion-ios-arrow-forward"></i></a></span>
+                    <span>Cars <i class="ion-ios-arrow-forward"></i></span>
+                </p>
+                <h1 class="mb-3 bread">Choose Your Car</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 🔍 Sidebar Filters -->
+            <div class="col-md-3 bg-white p-4 border-right shadow-sm rounded-2">
+                <h4 class="font-weight-bold mb-4 text-dark text-center border-bottom pb-2">🔍 Search Cars</h4>
+
+                <form method="get" asp-action="Cars" asp-controller="Website" class="search-form">
+                    <button type="submit" class="btn btn-outline-secondary btn-sm mb-3 w-100">Reset Filters</button>
+
+                    @* ✅ Validation Messages *@
+                    @if (ViewBag.YearError != null)
+                    {
+                        <div class="alert alert-danger py-1">@ViewBag.YearError</div>
+                    }
+                    @if (ViewBag.PriceError != null)
+                    {
+                        <div class="alert alert-danger py-1">@ViewBag.PriceError</div>
+                    }
+                    @if (ViewBag.MileageError != null)
+                    {
+                        <div class="alert alert-danger py-1">@ViewBag.MileageError</div>
+                    }
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">📅 Min Year</label>
+                        <input type="number" name="minYear" class="form-control form-control-sm" placeholder="e.g. 2015" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">📅 Max Year</label>
+                        <input type="number" name="maxYear" class="form-control form-control-sm" placeholder="e.g. 2024" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">🚘 Make</label>
+                        <select name="make" class="form-control form-control-sm">
+                            <option value="">All</option>
+                            @foreach (var make in ViewBag.Makes as List<string>)
+                            {
+                                <option value="@make">@make</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">📍 Model</label>
+                        <select name="model" class="form-control form-control-sm">
+                            <option value="">All</option>
+                            @foreach (var modelItem in ViewBag.Models as List<string>)
+                            {
+                                <option value="@modelItem">@modelItem</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">⛽ Fuel Type</label>
+                        <select name="fuelType" class="form-control form-control-sm">
+                            <option value="">All</option>
+                            <option>Petrol</option>
+                            <option>Diesel</option>
+                            <option>Hybrid</option>
+                            <option>Electric</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">⚙️ Transmission</label>
+                        <select name="transmission" class="form-control form-control-sm">
+                            <option value="">All</option>
+                            <option>Automatic</option>
+                            <option>Manual</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">💲 Min Price</label>
+                        <input type="number" name="minPrice" class="form-control form-control-sm" placeholder="e.g. 500000" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">💲 Max Price</label>
+                        <input type="number" name="maxPrice" class="form-control form-control-sm" placeholder="e.g. 8000000" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">📉 Min Mileage</label>
+                        <input type="number" name="minMileage" class="form-control form-control-sm" placeholder="e.g. 0" />
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="font-weight-bold">📈 Max Mileage</label>
+                        <input type="number" name="maxMileage" class="form-control form-control-sm" placeholder="e.g. 100000" />
+                    </div>
+
+                    <button type="submit" class="btn btn-dark w-100 font-weight-bold">
+                        🔎 Search
+                    </button>
+                </form>
+            </div>
+
+
+            <!-- 🚘 Car Listings -->
+            <div class="col-md-9 p-4">
+                <!-- ✅ Result Message -->
+                <div class="mb-3">
+                    @{
+                        // Check if any search filter is applied
+                        var isSearchPerformed = !string.IsNullOrEmpty(Context.Request.Query["minYear"]) ||
+                        !string.IsNullOrEmpty(Context.Request.Query["maxYear"]) ||
+                        !string.IsNullOrEmpty(Context.Request.Query["make"]) ||
+                        !string.IsNullOrEmpty(Context.Request.Query["model"]) ||
+                        !string.IsNullOrEmpty(Context.Request.Query["fuelType"]) ||
+                        !string.IsNullOrEmpty(Context.Request.Query["transmission"]) ||
+                        !string.IsNullOrEmpty(Context.Request.Query["minPrice"]) ||
+                        !string.IsNullOrEmpty(Context.Request.Query["maxPrice"]) ||
+                        !string.IsNullOrEmpty(Context.Request.Query["minMileage"]) ||
+                        !string.IsNullOrEmpty(Context.Request.Query["maxMileage"]);
+                    }
+
+                    @if (isSearchPerformed)
+                    {
+                        if (ViewBag.ResultCount != null && ViewBag.ResultCount > 0)
+                        {
+                            <div class="alert alert-success">@ViewBag.ResultCount item(s) found.</div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning">No items found.</div>
+                        }
+                    }
+                </div>
+
+
+
+                @foreach (var item in Model)
+                {
+                    var firstImage = item.ImagePath?.Split(',').FirstOrDefault();
+                    decimal price = item.Price ?? 0;
+
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="row no-gutters align-items-center">
+                            <!-- Car Image -->
+                            <div class="col-md-4">
+                                <img src="@Url.Content("~/uploads/" + firstImage)" class="img-fluid w-100" style="height: 220px; object-fit: cover;" alt="@item.Brand" />
+                            </div>
+                            <!-- Car Info -->
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h5 class="card-title mb-1">@item.Year @item.Brand @item.Model</h5>
+                                            <p class="text-muted small mb-2">Stock ID: @item.Stock_id</p>
+
+                                            <div class="d-flex flex-wrap text-muted small">
+                                                <div class="mr-3"><i class="fas fa-tachometer-alt mr-1"></i> @item.Mileage Mi</div>
+                                                <div class="mr-3"><i class="fas fa-cogs mr-1"></i> @item.Transmission</div>
+                                                <div class="mr-3"><i class="fas fa-fill-drip mr-1"></i> @item.FuelType</div>
+                                                <div class="mr-3"><i class="fas fa-chair mr-1"></i> @item.Seats Seats</div>
+                                                <div class="mr-3"><i class="fas fa-snowflake mr-1"></i> @item.Color</div>
+                                                <div class="mr-3"><i class="fas fa-car mr-1"></i> @item.Engine</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Price + Button -->
+                                        <div class="text-right">
+                                            <h5 class="text-success font-weight-bold">
+                                                @price.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"))
+                                            </h5>
+                                            <a href="@Url.Action("cardetail", "website", new { id = item.Stock_id })" class="btn btn-outline-primary btn-sm mt-2">View Details</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-muted small mt-2">
+                                        @item.Description?.Substring(0, Math.Min(100, item.Description.Length))...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section ftco-no-pt bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Remove animation classes for now -->
+            <div class="col-md-12 heading-section text-center mb-5" style="padding-top: 80px;">
+                <h2 class="mb-3" style="font-size: 44px; font-weight: 800; color: #1a1a1a;">
+                    <i class="fas fa-car-side text-primary mr-2"></i> Featured Vehicles
+                </h2>
+                <p style="color: #555; font-size: 16px;">Browse our exclusive collection...</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="carousel-car owl-carousel">
+                    @foreach (var row in Model)
+                    {
+                        var firstImage = row.ImagePath?.Split(',').FirstOrDefault();
+                        <div class="item" style="padding: 10px;">
+                            <div style="
+                                border-radius: 15px;
+                                overflow: hidden;
+                                background: #fff;
+                                border: 1px solid #ddd;
+                                transition: all 0.3s ease;
+                                box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+                                transform: translateY(0);
+                            "
+                                 onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 30px rgba(0, 0, 0, 0.12)';"
+                                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.08)';">
+                                <!-- Car Image -->
+                                <div style="background-image: url('@Url.Content("~/uploads/" + firstImage)'); height: 240px; background-size: cover; background-position: center;">
+                                </div>
+
+                                <!-- Car Details -->
+                                <div style="padding: 20px;">
+                                    <h4 style="margin: 0 0 8px; font-size: 22px; color: #222; font-weight: 700;">@row.Brand</h4>
+                                    <p style="margin: 0 0 15px; color: #777; font-size: 15px;">@row.Model</p>
+
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                        <span style="color: #007bff; font-weight: bold; font-size: 18px;">$@string.Format("{0:N0}", row.Price)</span>
+                                        <a href="@Url.Action("cardetail", "website", new { id = row.Stock_id })"
+                                           style="
+                                           padding: 10px 20px;
+                                           background-color: #007bff;
+                                           color: #fff;
+                                           font-size: 14px;
+                                           font-weight: 600;
+                                           border-radius: 30px;
+                                           text-decoration: none;
+                                           box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+                                           transition: background 0.3s ease;
+                                           display: inline-flex;
+                                           align-items: center;
+                                            ">
+                                            <i class="fas fa-arrow-right mr-1" style="margin-right: 6px;"></i> View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
